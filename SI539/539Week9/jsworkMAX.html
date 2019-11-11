@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>draw game</title>
+    <style>
+        canvas {
+            max-width: 100%;
+            max-height: 100vh;
+            border:1px solid #d3d3d3;
+            background-color: #f1f1f1;
+        }
+        h1 {
+            display: none;
+        }
+    </style>
+</head>
+<body onload="draw()">
+<main>
+    <h1>Draw Game</h1>
+    <canvas id="board" width="800" height="500">
+    </canvas>
+</main>
+<script>
+
+var c = document.getElementById("board");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "#17202A";
+ctx.lineWidth = 3;
+var draw = function(){
+    document.onmousemove = function(e){
+        var x = e.pageX;
+        var y = e.pageY;
+        ctx.lineTo(x,y);
+        ctx.stroke();
+    };
+    document.ontouchmove = function (e) {
+        var x = e.touches[0].screenX;
+        var y = e.touches[0].screenY;
+        ctx.lineTo(x,y);
+        ctx.stroke();
+    }
+};
+
+
+document.onkeydown = function (e) {
+    if (e.keyCode === 66){
+        ctx.strokeStyle = "blue";
+        ctx.beginPath();
+    }
+    else if (e.keyCode === 82){
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+    }
+    else if (e.keyCode === 71){
+        ctx.strokeStyle = "green";
+        ctx.beginPath();
+    }
+    else if (e.keyCode === 89){
+        ctx.strokeStyle = "yellow";
+        ctx.beginPath();
+    }
+    else if (e.keyCode === 38){
+        ctx.globalAlpha = 0;
+    }
+    else if (e.keyCode === 40){
+        ctx.globalAlpha = 1.0;
+        ctx.beginPath();
+    }
+    else if (e.keyCode === 32){
+        ctx.clearRect(0,0,800,500);
+        ctx.beginPath();
+    }
+}
+
+
+</script>
+</body>
+</html>

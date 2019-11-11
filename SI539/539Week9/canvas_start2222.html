@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drawing Area</title>
+<!-- You can add your style here rather than in an external style sheet. -->
+<style>
+	canvas {
+	    border:5px solid #d3d3d3;
+	    background-color: #f1f1f1;
+	    display: block;
+	}
+</style>
+</head>
+<body onload="draw()">
+    <!-- DO NOT MODIFY THIS HTML -->
+    <canvas id = "myCanvas" width = "350" height = "500" ></canvas>
+    <input type = "color" id = "picker"/>
+ <script>
+
+var c = document.getElementById("myCanvas");
+
+var ctx = c.getContext("2d");
+ctx.lineWidth = 3;
+
+var color = document.querySelector('#picker')
+picker.addEventListener("change", function(e){
+	ctx.strokeStyle = e.target.value;
+    ctx.beginPath();
+})
+
+var draw = function(){
+    document.onmousemove = function(e){
+        var x = e.pageX;
+        var y = e.pageY;
+        ctx.lineTo(x,y);
+        ctx.stroke();
+    };
+
+    document.onkeydown = function (e) {
+        if (e.keyCode === 66){
+            ctx.strokeStyle = "blue";
+            ctx.beginPath();
+        }
+        else if (e.keyCode === 82){
+            ctx.strokeStyle = "red";
+            ctx.beginPath();
+        }
+        else if (e.keyCode === 71){
+            ctx.strokeStyle = "green";
+            ctx.beginPath();
+        }
+        else if (e.keyCode === 89){
+            ctx.strokeStyle = "yellow";
+            ctx.beginPath();
+        }
+        else if (e.keyCode === 38){
+            ctx.globalAlpha = 0;
+        }
+        else if (e.keyCode === 40){
+            ctx.globalAlpha = 1.0;
+            ctx.beginPath();
+        }
+        else if (e.keyCode === 32){
+            ctx.clearRect(0,0,350,500);
+            ctx.beginPath();
+        }
+    }
+
+};
+
+</script>
+</body>
+</html>

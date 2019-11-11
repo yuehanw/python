@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Canvas</title>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+</head>
+<body onload="startGame()">
+<script>
+var myGamePiece;
+function startGame() {
+    myGamePiece = new component(5, 5, "red", -10, -10);
+    myGameArea.start();
+}
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 800;
+        this.canvas.height = 500;
+        this.canvas.style.cursor = "none"; //hide the original cursor
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 0.01);
+        window.addEventListener('keydown', function(e){
+            console.log(e.keyCode);
+            myGameArea.key = e.keyCode;
+						myGameArea.flag = true;
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.flag = false;
+        })
+				window.addEventListener('mousemove', function (e) {
+						myGameArea.x = e.pageX;
+						myGameArea.y = e.pageY;
+				})
+    },
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+function component(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+		this.color = color;
+    this.x = x;
+    this.y = y;
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.width, 0, 2 * Math.PI);
+				ctx.fill();
+    }
+}
+function updateGameArea() {
+    if (myGameArea.x && myGameArea.y) {
+    myGamePiece.x = myGameArea.x;
+    myGamePiece.y = myGameArea.y;
+		}
+		if (myGameArea.flag) {
+			switch (myGameArea.key) {
+				case 38:
+					myGamePiece.width += 0.1;
+					console.log(myGamePiece.width);
+					break;
+				case 40:
+					if (myGamePiece.width >= 0) {
+						myGamePiece.width -= 0.1;
+						console.log(myGamePiece.width);
+					}
+					break;
+				case 66:
+					myGamePiece.color = 'blue';
+					break;
+				case 71:
+					myGamePiece.color = 'green';
+					break;
+				case 82:
+					myGamePiece.color = 'red';
+					break;
+				case 89:
+					myGamePiece.color = 'yellow';
+					break;
+				case 32:
+					myGameArea.clear();
+					break;
+				default:
+			}
+		}
+    myGamePiece.update();
+}
+</script>
+<main>
+<h1>My Canvas</h1>
+<p>Move the cursor inside the 800 x 500 pixel canvas to move a colored pen. You can alternate colors by hitting "b" for blue, "g" for green, "r" for red, and "y" for yellow.</p>
+<p>You can also increase and decrease the circle size by using the up(larger) and down(smaller) arrow keys. You can clear the screen using the space bar.</p>
+</main>
+</body>
+</html>
